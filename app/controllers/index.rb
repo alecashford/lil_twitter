@@ -7,6 +7,12 @@ end
 
 #----------- SESSIONS -----------
 
+get '/profile' do
+  @user_tweets = Tweet.where(:user_id => session[:user_id])
+  @user = User.where(:id => session[:user_id]).first
+  erb :profile
+end
+
 get '/sessions/new' do
   @title = "Sign In"
   erb :sign_in
