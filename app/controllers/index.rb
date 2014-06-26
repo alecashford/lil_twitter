@@ -6,10 +6,7 @@ get '/' do
   erb :index
 end
 
-not_found do
-  status 404
-  erb :not_found
-end
+
 
 #----------- SESSIONS -----------
 
@@ -92,4 +89,28 @@ end
 post '/tweets' do
   Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
   redirect '/'
+
+end
+
+get '/followers/:id' do
+  @this_user = User.find_by_id(params[:id])
+  my_id = params[:id].to_i
+  users = User.all
+  @followers = []
+  users.each do |user|
+    following = user.followed_users
+    following.each do |possibly_me|
+      if possibly_me.id == my_id
+        @followers << user
+        break
+      end
+    end
+  end
+  erb :followers
+end
+
+not_found do
+  status 404
+  erb :not_found
+
 end
