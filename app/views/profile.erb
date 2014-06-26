@@ -1,0 +1,12 @@
+<h1 style="text-align: center"><%= @user.username %></h1>
+<div class="container">
+  <% @user_tweets.each do |tweet| %>
+    <% day = tweet.created_at.day %>
+    <% month = tweet.created_at.month %>
+    <% year = tweet.created_at.year %>
+    <% hour = tweet.created_at.hour %>
+    <% minute = tweet.created_at.min %>
+    <%= "#{hour}:#{minute} #{month}/#{day}/#{year}" %>
+    <%= tweet.content %><br>
+  <% end %>
+</div>
