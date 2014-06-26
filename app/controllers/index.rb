@@ -29,10 +29,6 @@ post '/sessions' do
       session[:username] = user.username
       session[:first_name] = user.first_name
       session[:last_name] = user.last_name
-
-      # p tweets
-      # @sorted = @tweets.sort_by {|tweet| tweet.first.created_at }
-
       redirect '/'
     else
       @error = "Username/Password Combination is incorrect."
