@@ -1,0 +1,22 @@
+<div class="register_container" >
+
+  <h1 style="text-align:center">Registration</h1>
+
+  <div class="inner_container" >
+    <form action="/register" method="post">
+      <input type="text" name="username" placeholder="Username"><br>
+      <input type="password" name="password" placeholder="Password"><br>
+      <input type="password" name="password_confirm" placeholder="Confirm Password"><br><br>
+      <input type = "submit" class="btn-success" value = "Submit">
+    </form>
+
+  </div>
+  <% if session[:invalid_password] %>
+    <p style="text-align:center">Passwords Do Not Match. Try Again.</p>
+  <% end %>
+<center>
+<form action="/" method="post">
+    <input type = "submit" class="btn-primary" value = "Home">
+</form>
+</center>
+</div>
