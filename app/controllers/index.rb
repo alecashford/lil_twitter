@@ -6,14 +6,23 @@ get '/' do
   erb :index
 end
 
-
+not_found do
+  status 404
+  erb :not_found
+end
 
 #----------- SESSIONS -----------
 
-get '/profile' do
-  @user_tweets = Tweet.where(:user_id => session[:user_id])
-  @user = User.where(:id => session[:user_id]).first
+get '/profile/:id' do
+  @user_tweets = Tweet.where(:user_id => params[:id])
+  @user = User.where(:id => params[:id]).first
   erb :profile
+end
+
+get '/following/:id' do
+  @user = User.where(:id => params[:id]).first
+  @following = @user.followed_users
+  erb :following
 end
 
 get '/sessions/new' do
@@ -28,7 +37,7 @@ post '/sessions' do
       session[:user_id] = user.id
       redirect '/'
     else
-      @error = "Username/Password Combination is incorrect."
+      @error = "Wrong password. Try again."
       erb :sign_in
     end
   else
