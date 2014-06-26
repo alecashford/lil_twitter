@@ -68,3 +68,18 @@ post '/tweets' do
   redirect '/'
 end
 
+get 'followers/:id' do
+  users = User.all
+  @followers = []
+  users.each do |user|
+    following = user.followed_users
+    following.each do |possibly_me|
+      if possibly_me.id == my_id
+        followers << user
+        break
+      end
+    end
+  end
+
+end
+
