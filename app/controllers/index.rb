@@ -5,8 +5,6 @@ end
 
 
 
-
-
 #----------- SESSIONS -----------
 
 get '/sessions/new' do
@@ -35,3 +33,4 @@ delete '/sessions/:id' do
   redirect '/'
   # sign-out -- invoked
 end
+
