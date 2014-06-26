@@ -1,11 +1,29 @@
 get '/' do
   # Look in app/views/index.erb
+  if session[:user_id]
+    @user = User.find_by_id(session[:user_id])
+  end
   erb :index
 end
 
-
+not_found do
+  status 404
+  erb :not_found
+end
 
 #----------- SESSIONS -----------
+
+get '/profile/:id' do
+  @user_tweets = Tweet.where(:user_id => params[:id])
+  @user = User.where(:id => params[:id]).first
+  erb :profile
+end
+
+get '/following/:id' do
+  @user = User.where(:id => params[:id]).first
+  @following = @user.followed_users
+  erb :following
+end
 
 get '/sessions/new' do
   @title = "Sign In"
@@ -19,7 +37,7 @@ post '/sessions' do
       session[:user_id] = user.id
       redirect '/'
     else
-      @error = "Username/Password Combination is incorrect."
+      @error = "Wrong password. Try again."
       erb :sign_in
     end
   else
@@ -53,6 +71,7 @@ post '/register' do
     redirect '/register'
   end
 end
+
 
 get '/display_all' do
   dupes_equals_true = User.find_by_id(session[:user_id].to_i).followed_users.include? User.find_by_id(params[:user_id].to_i)
