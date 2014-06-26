@@ -8,7 +8,7 @@ get '/' do
     end
     @tweets = Tweet.all.sort_by {|tweet| tweet.created_at }
     @tweets.reverse!
-  # Look in app/views/index.erb
+  end
   if session[:user_id]
     @user = User.find_by_id(session[:user_id])
   end
