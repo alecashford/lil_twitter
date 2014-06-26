@@ -69,9 +69,27 @@ post '/register' do
   end
 end
 
+
+get '/display_all' do
+  dupes_equals_true = User.find_by_id(session[:user_id].to_i).followed_users.include? User.find_by_id(params[:user_id].to_i)
+  if params[:user_id]
+    unless session[:user_id].to_i == params[:user_id].to_i
+      unless dupes_equals_true
+        User.find_by_id(session[:user_id].to_i).followed_users << User.find_by_id(params[:user_id].to_i)
+      end
+    end
+  end
+  @all_users = User.all
+  erb :display_all_users
+end
+
+post '/display_all' do
+end
+
 post '/tweets' do
   Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
   redirect '/'
+
 end
 
 get '/followers/:id' do
@@ -94,4 +112,5 @@ end
 not_found do
   status 404
   erb :not_found
+
 end
