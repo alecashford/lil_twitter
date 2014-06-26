@@ -88,3 +88,8 @@ end
 
 post '/display_all' do
 end
+
+post '/tweets' do
+  Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
+  redirect '/'
+end
