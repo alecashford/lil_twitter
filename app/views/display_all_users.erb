@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Displaying All Users</h1>
+
+
+<% @all_users.each do |i| %>
+<form id="follow" action="/display_all" method="get">
+<%= "#{i.username}" %>
+<input type="hidden" name="user_id" value="<%= i.id %>">
+<input type="submit" value="follow" class="button">
+</form>
+<br><br>
+<% end %>
+</div>
