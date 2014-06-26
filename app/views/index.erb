@@ -3,8 +3,23 @@
   <% if session[:username] %>
     <h3>tweets:</h3>
 
+<<<<<<< HEAD
     <% @tweets.each do |tweet| %>
       <div class = "tweet_div"><%= tweet.content %><br>Tweeted at: <%= tweet.created_at %><br><br></div>
     <% end %>
   <% end %>
+=======
+<h1>Lil' Twitter</h1>
+<% if session[:user_id] %>
+    <h1>Welcome, <%= @user.username %></h1>
+    <form id="new_tweet" method="post" action="/tweets">
+    <textarea rows="4" cols="50" name="tweet_content" maxlength="140" placeholder="140 characters or less."></textarea>
+
+    <div class="submit"><input type="submit" value="Send Tweet"></div>
+  </form>
+   <% else %>
+    <h1 style="text-align:center;">Sign in Already!</h1>
+<% end %>
+
+>>>>>>> 163543fb316328f75a4a490c9e1113b0233af7ee
 </div>

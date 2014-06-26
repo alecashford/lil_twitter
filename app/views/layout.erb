@@ -26,8 +26,9 @@
           <form id="sign-out" action="/sessions/<%= session[:user_id] %>" method="post">
             <input name="_method" type="hidden" value="delete" />
             <input type="submit" class="btn-danger" value="Sign Out">
-            <a class="home_link" href="/">Home</a></li>
           </form>
+
+          <a href="/profile"><input type="submit" class="btn-danger" value="Profile"></a>
 
       <% else %>
         <a class="sign_in" href="/sessions/new">Sign In</a></li>

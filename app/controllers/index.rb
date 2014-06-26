@@ -1,4 +1,5 @@
 get '/' do
+
   if session[:user_id]
     followed = User.find(session[:user_id]).followed_users
     @tweets = []
@@ -7,6 +8,9 @@ get '/' do
     end
     @tweets = Tweet.all.sort_by {|tweet| tweet.created_at }
     @tweets.reverse!
+  # Look in app/views/index.erb
+  if session[:user_id]
+    @user = User.find_by_id(session[:user_id])
   end
   erb :index
 end
@@ -15,6 +19,12 @@ end
 
 
 #----------- SESSIONS -----------
+
+get '/profile' do
+  @user_tweets = Tweet.where(:user_id => session[:user_id])
+  @user = User.where(:id => session[:user_id]).first
+  erb :profile
+end
 
 get '/sessions/new' do
   @title = "Sign In"
@@ -64,5 +74,10 @@ post '/register' do
     session[:invalid_password] = true
     redirect '/register'
   end
+end
+
+post '/tweets' do
+  Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
+  redirect '/'
 end
 
