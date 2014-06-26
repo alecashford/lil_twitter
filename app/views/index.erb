@@ -1,5 +1,10 @@
 <div class="container">
+  <h1>Welcome <%= session[:first_name] %></h1>
+  <% if session[:username] %>
+    <h3>tweets:</h3>
 
-
-
+    <% @tweets.each do |tweet| %>
+      <div class = "tweet_div"><%= tweet.content %><br>Tweeted at: <%= tweet.created_at %><br><br></div>
+    <% end %>
+  <% end %>
 </div>

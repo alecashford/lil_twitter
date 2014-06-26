@@ -16,8 +16,8 @@ class CreateTables < ActiveRecord::Migration
       t.timestamps
     end
     create_table :follow_relationships do |t|
-      t.integer :user_1_id
-      t.integer :user_2_id
+      t.integer :user_id
+      t.integer :followed_user_id
 
       t.timestamps
     end
