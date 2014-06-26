@@ -13,17 +13,17 @@ get '/sessions/new' do
 end
 
 post '/sessions' do
-  user = User.find_by_email(params[:email])
+  user = User.find_by_username(params[:username])
   if user
-    if user.password_hash == params[:password]
+    if user.password == params[:password]
       session[:user_id] = user.id
       redirect '/'
     else
-      @error = "Email/Password Combination is incorrect."
+      @error = "Username/Password Combination is incorrect."
       erb :sign_in
     end
   else
-    @error = "Email not found. Try again."
+    @error = "Username not found. Try again."
     erb :sign_in
   end
 end
