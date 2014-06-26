@@ -1,5 +1,8 @@
 get '/' do
   # Look in app/views/index.erb
+  if session[:user_id]
+    @user = User.find_by_id(session[:user_id])
+  end
   erb :index
 end
 
@@ -58,5 +61,10 @@ post '/register' do
     session[:invalid_password] = true
     redirect '/register'
   end
+end
+
+post '/tweets' do
+  Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
+  redirect '/'
 end
 
