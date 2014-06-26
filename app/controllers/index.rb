@@ -21,3 +21,4 @@ post '/register' do
     redirect '/register'
   end
 end
+
