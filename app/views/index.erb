@@ -21,7 +21,9 @@
         <%= "#{hour}:#{minute} #{month}/#{day}/#{year}" %><br><br>
         <!-- print tweet content  -->
         <%= tweet.content %><br>
-        <form method="post" action="/retweets/<%= tweet.author_id %>/<%= tweet.content %>">
+        <form method="post" action="/retweet">
+            <input type="hidden" name="author_id" value="<%= tweet.author_id %>">
+            <input type="hidden" name="content" value="<%= tweet.content %>">
             <input type="submit" value="Retweet">
         </form>
       </div>

@@ -113,7 +113,7 @@ not_found do
   erb :not_found
 end
 
-post '/retweets/:author_id/:content' do
+post '/retweet' do
   Tweet.create(content: params[:content], user_id: session[:user_id], author_id: params[:author_id])
   redirect '/'
 end
