@@ -89,7 +89,7 @@ post '/register' do
 end
 
 post '/retweets' do
-  p Tweet.create(content: params[:tweet_content], user_id: session[:user_id], author_id: params[:user_id])
+  p Tweet.create(content: params[:content], user_id: session[:user_id], author_id: params[:user_id])
   redirect '/'
 end
 
