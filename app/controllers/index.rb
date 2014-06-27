@@ -7,7 +7,6 @@ get '/' do
     # find the tweets of users whom current user follows
     followed = @user.followed_users
     @tweets = []
-    @users = []
     followed.each do |user|
       @tweets << user.tweets
 
