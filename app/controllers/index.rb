@@ -1,6 +1,3 @@
-require 'bcrypt'
-
-
 get '/' do
   if session[:user_id]
     # find the current user
@@ -40,12 +37,11 @@ get '/login' do
   erb :login
 end
 
-
 post '/login' do
   # query databse for user with supplied username
   credentials = User.find_by_username(params[:username])
   # if user exists, and supplied password is correct
-  if credentials && credentials.password == BCrypt::Engine.hash_secret(params[:password], credentials[:salt])
+  if credentials && credentials.password == params[:password]
       session[:user_id] = credentials.id
       redirect '/'
   # if user exists, but supplied password is incorrect
@@ -69,46 +65,15 @@ get '/register' do
 end
 
 post '/register' do
-  p params
-  p pass = params[:password]
-  # password = BCrypt::Password.create(params[:password])
-  password_salt = BCrypt::Engine.generate_salt
-  password_hash = BCrypt::Engine.hash_secret(params[:password], password_salt)
-  first_name = params[:first_name]
-  last_name = params[:last_name]
-
-  User.create(username: params[:username], first_name: first_name, last_name: last_name, password: password_hash, salt: password_salt)
-
-  session[:username] = params[:username]
-  redirect "/"
-
+  user = User.create(username: params[:username], password: params[:password], first_name: params[:first_name], last_name: params[:last_name])
+  session[:user_id] = user.id
+  redirect '/'
 end
 
 post '/retweets' do
   p Tweet.create(content: params[:content], user_id: session[:user_id], author_id: params[:user_id])
   redirect '/'
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 get '/users' do
   @all_users = User.all
@@ -157,4 +122,3 @@ post '/retweet' do
   Tweet.create(content: params[:content], user_id: session[:user_id], author_id: params[:author_id])
   redirect '/'
 end
-
