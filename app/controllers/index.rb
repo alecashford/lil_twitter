@@ -15,14 +15,12 @@ get '/' do
   erb :index
 end
 
-
-
-
 #----------- SESSIONS -----------
 
 get '/profile/:id' do
   @user_tweets = Tweet.where(:user_id => params[:id])
   @user = User.where(:id => params[:id]).first
+  @user_id = params[:id]
   erb :profile
 end
 
@@ -56,10 +54,9 @@ post '/sessions' do
   end
 end
 
-delete '/sessions/:id' do
+get '/logout' do
   session.clear
-  redirect '/'
-  # sign-out -- invoked
+  erb :index
 end
 
 get '/register' do
@@ -84,29 +81,28 @@ end
 
 
 get '/display_all' do
-  dupes_equals_true = User.find_by_id(session[:user_id].to_i).followed_users.include? User.find_by_id(params[:user_id].to_i)
-  if params[:user_id]
-    unless session[:user_id].to_i == params[:user_id].to_i
-      unless dupes_equals_true
-        User.find_by_id(session[:user_id].to_i).followed_users << User.find_by_id(params[:user_id].to_i)
-      end
-    end
-  end
   @all_users = User.all
+  @following = User.find(session[:user_id]).followed_users
   erb :display_all_users
 end
 
-post '/display_all' do
+get '/follow/:id' do
+  User.find_by_id(session[:user_id]).followed_users << User.find_by_id(params[:id]) unless User.find_by_id(session[:user_id]).followed_users.include?(User.find_by_id(params[:id]))
+  redirect '/display_all'
+end
+
+get '/unfollow/:id' do
+  User.find_by_id(session[:user_id]).followed_users.delete(User.find_by_id(params[:id])) if User.find_by_id(session[:user_id]).followed_users.include?(User.find_by_id(params[:id]))
+  redirect '/display_all'
 end
 
 post '/tweets' do
   Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
   redirect '/'
-
 end
 
 get '/followers/:id' do
-  @this_user = User.find_by_id(params[:id])
+  @user = User.find_by_id(params[:id])
   my_id = params[:id].to_i
   users = User.all
   @followers = []

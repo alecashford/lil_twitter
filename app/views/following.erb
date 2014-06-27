@@ -2,6 +2,6 @@
 <div class="container">
   <% @following.each do |user| %>
     <%= user.username %>
-    <a href="/profile/<%= user.id %>"><input type="submit" value ="View Profile"></a>
+    <a href="/profile/<%= user.id %>"><input type="submit" value ="profile"></a><br>
   <% end %>
 </div>
