@@ -1,10 +1,12 @@
+<div class="container">
+
+
 <div style="text-align: center">
   <h1><%= @user.username %></h1>
   <a href="/following/<%= @user.id %>"><input type="submit" class="btn-danger" value="Following"></a>
   <a href="/followers/<%= @user.id %>"><input type="submit" class="btn-danger" value="Followers"></a>
 </div>
 
-<div class="container">
   <% @user_tweets.each do |tweet| %>
     <!-- parse datetime into readable form -->
     <% day = tweet.created_at.day %>
