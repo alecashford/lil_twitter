@@ -1,17 +1,20 @@
 <div style="text-align: center">
   <h1><%= @user.username %></h1>
-  <a href="/following/<%= @user_id %>"><input type="submit" class="btn-danger" value="Following"></a>
-  <a href="/followers/<%= @user_id %>"><input type="submit" class="btn-danger" value="Followers"></a>
+  <a href="/following/<%= @user.id %>"><input type="submit" class="btn-danger" value="Following"></a>
+  <a href="/followers/<%= @user.id %>"><input type="submit" class="btn-danger" value="Followers"></a>
 </div>
 
 <div class="container">
   <% @user_tweets.each do |tweet| %>
+    <!-- parse datetime into readable form -->
     <% day = tweet.created_at.day %>
     <% month = tweet.created_at.month %>
     <% year = tweet.created_at.year %>
     <% hour = tweet.created_at.hour %>
     <% minute = tweet.created_at.min %>
+    <!-- print tweet datetime  -->
     <%= "#{hour}:#{minute} #{month}/#{day}/#{year}" %>
+    <!-- print tweet content  -->
     <%= tweet.content %><br>
   <% end %>
 </div>

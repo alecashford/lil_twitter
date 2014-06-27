@@ -1,20 +1,27 @@
 <div class="container">
-  <% if session[:user_id] %>
+  <% if @user %>
     <h1>Welcome, <%= @user.username %></h1>
-    <form id="new_tweet" method="post" action="/tweets">
+    <!-- enter new tweet form -->
+    <form method="post" action="/new_tweet">
       <textarea rows="4" cols="50" name="tweet_content" maxlength="140" placeholder="140 characters or less."></textarea>
-
-      <div class="submit"><input type="submit" value="Tweet"></div>
+      <div><input type="submit" value="Tweet"></div>
     </form>
-  <% else %>
-    <h1 style="text-align:center;">Sign in Already!</h1>
-  <% end %>
-
-  <% if session[:username] %>
+    <!-- tweet feed displays all relevant tweets -->
     <h3>tweets:</h3>
     <% @tweets.each do |tweet| %>
-      <div class = "tweet_div"><%= tweet.content %><br>Tweeted at: <%= tweet.created_at %><br><br></div>
+      <div>
+        <!-- parse datetime into readable form -->
+        <b><%= @users.find(tweet.author_id).first.username %></b><br>
+        <% day = tweet.created_at.day %>
+        <% month = tweet.created_at.month %>
+        <% year = tweet.created_at.year %>
+        <% hour = tweet.created_at.hour %>
+        <% minute = tweet.created_at.min %>
+        <!-- print tweet datetime  -->
+        <%= "#{hour}:#{minute} #{month}/#{day}/#{year}" %><br><br>
+        <!-- print tweet content  -->
+        <%= tweet.content %><br><br>
+      </div>
     <% end %>
   <% end %>
-
 </div>
