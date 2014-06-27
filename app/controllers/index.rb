@@ -20,10 +20,16 @@ end
 
 #----------- SESSIONS -----------
 
-get '/profile' do
-  @user_tweets = Tweet.where(:user_id => session[:user_id])
-  @user = User.where(:id => session[:user_id]).first
+get '/profile/:id' do
+  @user_tweets = Tweet.where(:user_id => params[:id])
+  @user = User.where(:id => params[:id]).first
   erb :profile
+end
+
+get '/following/:id' do
+  @user = User.where(:id => params[:id]).first
+  @following = @user.followed_users
+  erb :following
 end
 
 get '/sessions/new' do
@@ -41,7 +47,7 @@ post '/sessions' do
       session[:last_name] = user.last_name
       redirect '/'
     else
-      @error = "Username/Password Combination is incorrect."
+      @error = "Wrong password. Try again."
       erb :sign_in
     end
   else
@@ -76,8 +82,48 @@ post '/register' do
   end
 end
 
+
+get '/display_all' do
+  dupes_equals_true = User.find_by_id(session[:user_id].to_i).followed_users.include? User.find_by_id(params[:user_id].to_i)
+  if params[:user_id]
+    unless session[:user_id].to_i == params[:user_id].to_i
+      unless dupes_equals_true
+        User.find_by_id(session[:user_id].to_i).followed_users << User.find_by_id(params[:user_id].to_i)
+      end
+    end
+  end
+  @all_users = User.all
+  erb :display_all_users
+end
+
+post '/display_all' do
+end
+
 post '/tweets' do
   Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
   redirect '/'
+
 end
 
+get '/followers/:id' do
+  @this_user = User.find_by_id(params[:id])
+  my_id = params[:id].to_i
+  users = User.all
+  @followers = []
+  users.each do |user|
+    following = user.followed_users
+    following.each do |possibly_me|
+      if possibly_me.id == my_id
+        @followers << user
+        break
+      end
+    end
+  end
+  erb :followers
+end
+
+not_found do
+  status 404
+  erb :not_found
+
+end

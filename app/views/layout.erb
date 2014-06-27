@@ -28,7 +28,9 @@
             <input type="submit" class="btn-danger" value="Sign Out">
           </form>
 
-          <a href="/profile"><input type="submit" class="btn-danger" value="Profile"></a>
+          <a href="/profile/<%= session[:user_id] %>"><input type="submit" class="btn-danger" value="Profile"></a>
+
+          <a href="/following/<%= session[:user_id] %>"><input type="submit" class="btn-danger" value="Following"></a>
 
       <% else %>
         <a class="sign_in" href="/sessions/new">Sign In</a></li>
