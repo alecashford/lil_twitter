@@ -1,4 +1,9 @@
-<h1 style="text-align: center"><%= @user.username %></h1>
+<div style="text-align: center">
+  <h1><%= @user.username %></h1>
+  <a href="/following/<%= @user_id %>"><input type="submit" class="btn-danger" value="Following"></a>
+  <a href="/followers/<%= @user_id %>"><input type="submit" class="btn-danger" value="Followers"></a>
+</div>
+
 <div class="container">
   <% @user_tweets.each do |tweet| %>
     <% day = tweet.created_at.day %>
