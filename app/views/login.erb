@@ -1,17 +1,12 @@
-<div class="container">
-  <h1>Sign In</h1>
 
   <% if @error %>
     <div class="errors"><%= @error %></div>
   <% end %>
+    <div class="container">
+      <form class="form-signin" role="form" id="sign-in" method="post" action="/login">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" class="form-control" required autofocus type="text" name="username" placeholder="Enter Username" value="<%= @email %>">
+        <input type="password" class="form-control" name="password" placeholder="Password (6 or more characters)" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Sign In">Sign in</button>
 
-  <form id="sign-in" method="post" action="/login">
-    <label class="label" for="username">Username</label>
-    <input type="text" name="username" placeholder="Enter Username" value="<%= @email %>"><br>
-    <label class="label" for="password">Password</label>
-    <input type="password" name="password" placeholder="6 or more characters">
-    <br>
-    <div class="submit"><input type="submit" value="Sign In"></div>
-  </form>
-
-</div>
+      </form>
