@@ -56,6 +56,11 @@ post '/sessions' do
   end
 end
 
+get '/sessions/logout' do
+  session.clear
+  redirect '/'
+end
+
 delete '/sessions/:id' do
   session.clear
   redirect '/'
@@ -100,7 +105,7 @@ post '/display_all' do
 end
 
 post '/tweets' do
-  Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
+  Tweet.create(content: params[:tweet_content], user_id: session[:user_id], author_id: session[:user_id] )
   redirect '/'
 
 end
