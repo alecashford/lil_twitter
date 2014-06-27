@@ -6,8 +6,8 @@ get '/' do
     followed.each do |user|
       @tweets << user.tweets
     end
-    @tweets = Tweet.all.sort_by {|tweet| tweet.created_at }
-    @tweets.reverse!
+    @tweets.flatten!
+    @tweets.sort_by! {|tweet| tweet.created_at}.reverse!
   end
   if session[:user_id]
     @user = User.find_by_id(session[:user_id])
