@@ -20,7 +20,10 @@
         <!-- print tweet datetime  -->
         <%= "#{hour}:#{minute} #{month}/#{day}/#{year}" %><br><br>
         <!-- print tweet content  -->
-        <%= tweet.content %><br><br>
+        <%= tweet.content %><br>
+        <form method="post" action="/retweets/<%= tweet.author_id %>/<%= tweet.content %>">
+            <input type="submit" value="Retweet">
+        </form>
       </div>
     <% end %>
   <% end %>
