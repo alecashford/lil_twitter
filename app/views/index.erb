@@ -1,13 +1,12 @@
 <div class="container">
   <% if @user %>
-    <h1>Welcome, <%= @user.username %></h1>
+    <div class="page_title"><%="Welcome, #{@user.username}."%></div>
     <!-- enter new tweet form -->
     <form method="post" action="/new_tweet">
       <textarea rows="4" cols="50" name="tweet_content" maxlength="140" placeholder="140 characters or less."></textarea>
       <div><input type="submit" value="Tweet"></div>
     </form>
     <!-- tweet feed displays all relevant tweets -->
-    <h3>tweets:</h3>
     <% @tweets.each do |tweet| %>
       <div>
         <!-- parse datetime into readable form -->

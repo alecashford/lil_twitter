@@ -1,5 +1,5 @@
-<h1 style="text-align: center"><%= "followers of #{@user.username}:" %></h1>
 <div class="container">
+  <div class="page_title"><%= "#{@user.username}'s followers" %></div>
   <% @followers.each do |user| %>
     <%= user.username %>
     <a href="/profile/<%= user.id %>"><input type="submit" value ="profile"></a><br>

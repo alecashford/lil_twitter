@@ -1,12 +1,12 @@
-<h1 style="text-align: center">users</h1>
-  <div class="container">
-    <% @all_users.each do |i| %>
-      <%= "#{i.username}" %>
-      <a href="/profile/<%= i.id %>"><input type="submit" value ="profile"></a>
-      <% if @following.include?(i) %>
-        <a href="/unfollow/<%= i.id %>"><input type="submit" value="unfollow" class="button"></a>
-      <% else %>
-        <a href="/follow/<%= i.id %>"><input type="submit" value="follow" class="button"></a>
-      <% end %><br>
-  <% end %>
-</div>
+<div class="container">
+  <div class="page_title">users</div>
+  <% @all_users.each do |i| %>
+    <%= "#{i.username}" %>
+    <a href="/profile/<%= i.id %>"><input type="submit" value ="profile"></a>
+    <!-- determines whether follow or unfollow button is necessary  -->
+    <% if @following.include?(i) %>
+      <a href="/unfollow/<%= i.id %>"><input type="submit" value="unfollow" class="button"></a>
+    <% else %>
+      <a href="/follow/<%= i.id %>"><input type="submit" value="follow" class="button"></a>
+    <% end %><br>
+<% end %>

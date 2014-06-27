@@ -1,7 +1,7 @@
 get '/' do
   if session[:user_id]
     # find the current user
-    @user = User.find_by_id(session[:user_id])
+    @user = User.find(session[:user_id])
     # finds all users
     @users = User.all
     # find the tweets of users whom current user follows
@@ -9,7 +9,6 @@ get '/' do
     @tweets = []
     followed.each do |user|
       @tweets << user.tweets
-
     end
     @tweets.flatten!
     @tweets.sort_by! {|tweet| tweet.created_at}.reverse!
@@ -98,13 +97,11 @@ end
 
 get '/followers/:id' do
   @user = User.find_by_id(params[:id])
-  my_id = params[:id].to_i
-  users = User.all
   @followers = []
-  users.each do |user|
-    following = user.followed_users
-    following.each do |possibly_me|
-      if possibly_me.id == my_id
+  # compile list of others users who are following current user
+  User.all.each do |user|
+    user.followed_users.each do |possibly_me|
+      if possibly_me.id == @user.id
         @followers << user
         break
       end

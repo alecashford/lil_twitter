@@ -1,5 +1,5 @@
-<h1 style="text-align: center"><%= "#{@user.username} is following:" %></h1>
 <div class="container">
+  <div class="page_title"><%= "#{@user.username} is following" %></div>
   <% @following.each do |user| %>
     <%= user.username %>
     <a href="/profile/<%= user.id %>"><input type="submit" value ="profile"></a><br>

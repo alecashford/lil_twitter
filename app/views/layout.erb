@@ -7,28 +7,25 @@
   <script src="/js/application.js"></script>
 </head>
 <body>
-  <nav>
-    </div>
-    <ul>
-      <!-- if a user is currently logged in -->
-      <% if session[:user_id] %>
-          <!-- logout (clear session) button -->
-          <a href='/logout'><input type="submit" class="btn-danger" value="Logout"></a>
-          <!-- show session user's profile button -->
-          <a href="/profile/<%= session[:user_id] %>"><input type="submit" value="Profile"></a>
-          <!-- show all users button  -->
-          <a href="/users"><input type="submit" value="Users"></a>
-          <!-- return home button  -->
-          <a href="/"><input type="submit" value="Home"></a>
-      <!-- no user is currently logged in  -->
-      <% else %>
-        <!-- sign in button  -->
-        <a href="/login">Sign In</a></li>
-        <!-- sign up button  -->
-        <a href="/register">Sign Up</a></li>
-      <% end %>
-    </ul>
-  </nav>
+  <div id="navbar">
+    <!-- if a user is currently logged in -->
+    <% if session[:user_id] %>
+        <!-- logout (clear session) button -->
+        <a href='/logout'><input type="submit" value="Logout"></a>
+        <!-- show session user's profile button -->
+        <a href="/profile/<%= session[:user_id] %>"><input type="submit" value="Profile"></a>
+        <!-- show all users button  -->
+        <a href="/users"><input type="submit" value="Users"></a>
+        <!-- return home button  -->
+        <a href="/"><input type="submit" value="Home"></a>
+    <!-- no user is currently logged in  -->
+    <% else %>
+      <!-- sign in button  -->
+      <a href="/login"><input type="submit" value="Login"></a>
+      <!-- sign up button  -->
+      <a href="/register"><input type="submit" value="Register"></a>
+    <% end %>
+  </div>
   <%= yield %>
 </body>
 </html>

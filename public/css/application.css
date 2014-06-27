@@ -2,8 +2,15 @@
   margin: 20px auto;
   width: 600px;
   padding: 0px 20px 20px 20px;
-  border: 1px dotted black;
+  text-align: center;
+  /*border: 1px dotted black;*/
 }
-th {
-  text-align: left;
+
+#navbar {
+  text-align: center;
+}
+
+.page_title {
+  text-align: center;
+  font-size: 20px;
 }
