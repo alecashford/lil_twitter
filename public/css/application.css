@@ -2,9 +2,14 @@
   margin: 20px auto;
   width: 600px;
   padding: 0px 20px 20px 20px;
-  border: 1px dotted black;
+  /*border: 1px dotted black;*/
   font-family: 'Lato', sans-serif;
+  text-align: center;
 }
 th {
   text-align: left;
+}
+
+#logo {
+  background-image: url("twitter.png");
 }
