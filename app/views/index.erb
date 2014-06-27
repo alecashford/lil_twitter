@@ -11,10 +11,10 @@
   <% end %>
 
   <% if session[:username] %>
-    <h3>tweets:</h3>
-    <% @tweets.each do |tweet| %>
-      <div class = "tweet_div"><%= tweet.content %><br>Tweeted at: <%= tweet.created_at %><br><br></div>
-    <% end %>
+  <h3>tweets:</h3>
+  <% @tweets.each do |tweet| %>
+  <div class = "tweet_div"><%= User.find(tweet.user_id).id %><%= User.find(tweet.user_id).username %> <%= tweet.content %><br>Tweeted at: <%= tweet.created_at %><br><form method="post" action="/retweets"><div class="submit"><input type="hidden" name ="user_id" value="<%= User.find(tweet.user_id).id %>"><input type="hidden" name = "content" value="<%= tweet.content %>"><input type="submit" value="Retweet"></div></form><br><br></div>
+  <% end %>
   <% end %>
 
 </div>
