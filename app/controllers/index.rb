@@ -7,8 +7,10 @@ get '/' do
     # find the tweets of users whom current user follows
     followed = @user.followed_users
     @tweets = []
+    @users = []
     followed.each do |user|
       @tweets << user.tweets
+
     end
     @tweets.flatten!
     @tweets.sort_by! {|tweet| tweet.created_at}.reverse!
@@ -69,6 +71,10 @@ post '/register' do
   redirect '/'
 end
 
+post '/retweets' do
+  p Tweet.create(content: params[:content], user_id: session[:user_id], author_id: params[:user_id])
+  redirect '/'
+end
 
 get '/users' do
   @all_users = User.all
