@@ -3,8 +3,10 @@ get '/' do
   if session[:user_id]
     followed = User.find(session[:user_id]).followed_users
     @tweets = []
+    @users = []
     followed.each do |user|
       @tweets << user.tweets
+
     end
     @tweets.flatten!
     @tweets.sort_by! {|tweet| tweet.created_at}.reverse!
@@ -59,7 +61,6 @@ end
 delete '/sessions/:id' do
   session.clear
   redirect '/'
-  # sign-out -- invoked
 end
 
 get '/register' do
@@ -82,6 +83,10 @@ post '/register' do
   end
 end
 
+post '/retweets' do
+  p Tweet.create(content: params[:tweet_content], user_id: session[:user_id], author_id: params[:user_id])
+  redirect '/'
+end
 
 get '/display_all' do
   dupes_equals_true = User.find_by_id(session[:user_id].to_i).followed_users.include? User.find_by_id(params[:user_id].to_i)
