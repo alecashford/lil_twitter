@@ -54,9 +54,16 @@ post '/sessions' do
   end
 end
 
+get '/sessions/logout' do
+  session.clear
+  redirect '/'
+end
+
+
+
 get '/logout' do
   session.clear
-  erb :index
+  redirect '/'
 end
 
 get '/register' do
@@ -97,7 +104,7 @@ get '/unfollow/:id' do
 end
 
 post '/tweets' do
-  Tweet.create(content: params[:tweet_content], user_id: session[:user_id])
+  Tweet.create(content: params[:tweet_content], user_id: session[:user_id], author_id: session[:user_id] )
   redirect '/'
 end
 
