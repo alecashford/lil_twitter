@@ -1,18 +1,21 @@
 require 'bcrypt'
 
+
 get '/' do
-  @tweets =[]
   if session[:user_id]
-    followed = User.find(session[:user_id]).followed_users
+    # find the current user
+    @user = User.find_by_id(session[:user_id])
+    # finds all users
+    @users = User.all
+    # find the tweets of users whom current user follows
+    followed = @user.followed_users
     @tweets = []
     followed.each do |user|
       @tweets << user.tweets
+
     end
     @tweets.flatten!
     @tweets.sort_by! {|tweet| tweet.created_at}.reverse!
-  end
-  if session[:user_id]
-    @user = User.find_by_id(session[:user_id])
   end
   erb :index
 end
@@ -20,9 +23,10 @@ end
 #----------- SESSIONS -----------
 
 get '/profile/:id' do
-  @user_tweets = Tweet.where(:user_id => params[:id])
+  # get current user
   @user = User.where(:id => params[:id]).first
-  @user_id = params[:id]
+  # get tweets of current user
+  @user_tweets = Tweet.where(:user_id => params[:id])
   erb :profile
 end
 
@@ -32,36 +36,28 @@ get '/following/:id' do
   erb :following
 end
 
-get '/sessions/new' do
-  @title = "Sign In"
-  erb :sign_in
+get '/login' do
+  erb :login
 end
 
-post '/sessions' do
-  user = User.find_by_username(params[:username])
-  if user
-    if user[:password] == BCrypt::Engine.hash_secret(params[:password], user[:salt])
-      session[:user_id] = user.id
-      session[:username] = user.username
-      session[:first_name] = user.first_name
-      session[:last_name] = user.last_name
+
+post '/login' do
+  # query databse for user with supplied username
+  credentials = User.find_by_username(params[:username])
+  # if user exists, and supplied password is correct
+  if credentials && credentials.password == BCrypt::Engine.hash_secret(params[:password], credentials[:salt])
+      session[:user_id] = credentials.id
       redirect '/'
-    else
+  # if user exists, but supplied password is incorrect
+  elsif credentials
       @error = "Wrong password. Try again."
-      erb :sign_in
-    end
+      erb :login
+  # if user does not exist at all
   else
     @error = "Username not found. Try again."
-    erb :sign_in
+    erb :login
   end
 end
-
-get '/sessions/logout' do
-  session.clear
-  redirect '/'
-end
-
-
 
 get '/logout' do
   session.clear
@@ -85,6 +81,12 @@ post '/register' do
 
   session[:username] = params[:username]
   redirect "/"
+
+end
+
+post '/retweets' do
+  p Tweet.create(content: params[:content], user_id: session[:user_id], author_id: params[:user_id])
+  redirect '/'
 end
 
 
@@ -108,24 +110,23 @@ end
 
 
 
-
-get '/display_all' do
+get '/users' do
   @all_users = User.all
   @following = User.find(session[:user_id]).followed_users
-  erb :display_all_users
+  erb :users
 end
 
 get '/follow/:id' do
   User.find_by_id(session[:user_id]).followed_users << User.find_by_id(params[:id]) unless User.find_by_id(session[:user_id]).followed_users.include?(User.find_by_id(params[:id]))
-  redirect '/display_all'
+  redirect '/users'
 end
 
 get '/unfollow/:id' do
   User.find_by_id(session[:user_id]).followed_users.delete(User.find_by_id(params[:id])) if User.find_by_id(session[:user_id]).followed_users.include?(User.find_by_id(params[:id]))
-  redirect '/display_all'
+  redirect '/users'
 end
 
-post '/tweets' do
+post '/new_tweet' do
   Tweet.create(content: params[:tweet_content], user_id: session[:user_id], author_id: session[:user_id] )
   redirect '/'
 end
@@ -150,6 +151,10 @@ end
 not_found do
   status 404
   erb :not_found
+end
 
+post '/retweet' do
+  Tweet.create(content: params[:content], user_id: session[:user_id], author_id: params[:author_id])
+  redirect '/'
 end
 
