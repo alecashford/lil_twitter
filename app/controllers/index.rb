@@ -1,5 +1,7 @@
-get '/' do
+require 'bcrypt'
 
+get '/' do
+  @tweets =[]
   if session[:user_id]
     followed = User.find(session[:user_id]).followed_users
     @tweets = []
@@ -38,7 +40,7 @@ end
 post '/sessions' do
   user = User.find_by_username(params[:username])
   if user
-    if user.password == params[:password]
+    if user[:password] == BCrypt::Engine.hash_secret(params[:password], user[:salt])
       session[:user_id] = user.id
       session[:username] = user.username
       session[:first_name] = user.first_name
@@ -71,20 +73,40 @@ get '/register' do
 end
 
 post '/register' do
-  session.clear
-  if params[:password]==params[:password_confirm]
-    User.create(username: params[:username], password: params[:password], first_name: params[:first_name], last_name: params[:last_name])
-    user = User.find_by_username(params[:username])
-    session[:user_id] = user.id
-    session[:username] = user.username
-    session[:first_name] = user.first_name
-    session[:last_name] = user.last_name
-    redirect '/'
-  else
-    session[:invalid_password] = true
-    redirect '/register'
-  end
+  p params
+  p pass = params[:password]
+  # password = BCrypt::Password.create(params[:password])
+  password_salt = BCrypt::Engine.generate_salt
+  password_hash = BCrypt::Engine.hash_secret(params[:password], password_salt)
+  first_name = params[:first_name]
+  last_name = params[:last_name]
+
+  User.create(username: params[:username], first_name: first_name, last_name: last_name, password: password_hash, salt: password_salt)
+
+  session[:username] = params[:username]
+  redirect "/"
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 get '/display_all' do

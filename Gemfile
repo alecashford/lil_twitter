@@ -3,7 +3,7 @@ ruby '1.9.3'
 
 # PostgreSQL driver
 gem 'pg'
-
+gem 'bcrypt-ruby'
 # Sinatra driver
 gem 'sinatra'
 gem 'sinatra-contrib'
