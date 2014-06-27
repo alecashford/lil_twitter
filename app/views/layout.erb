@@ -32,13 +32,16 @@
 
           <a href="/following/<%= session[:user_id] %>"><input type="submit" class="btn-danger" value="Following"></a>
 
+
           <a href="/display_all"><input type="submit" class="btn-danger" value="Follow Users"></a>
+
 
       <% else %>
         <a class="sign_in" href="/sessions/new">Sign In</a></li>
         <a class="sign_in" href="/register">Sign Up</a></li>
 
       <% end %>
+
     </ul>
   </nav>
 
