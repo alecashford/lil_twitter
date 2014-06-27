@@ -93,6 +93,8 @@ get '/display_all' do
     end
   end
   @all_users = User.all
+  @followed = User.find_by_id(session[:user_id].to_i).followed_users
+  p @followed
   erb :display_all_users
 end
 

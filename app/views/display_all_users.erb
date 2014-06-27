@@ -3,11 +3,20 @@
 
 
 <% @all_users.each do |i| %>
-<form id="follow" action="/display_all" method="get">
-<%= "#{i.username}" %>
-<input type="hidden" name="user_id" value="<%= i.id %>">
-<input type="submit" value="follow" class="button">
-</form>
-<br><br>
+  <% p @followed.include? i %>
+  <% if @followed.include? i %>
+    <form id="unfollow" action="/display_all" method="get">
+    <%= "#{i.username}" %>
+    <input type="hidden" name="user_id" value="<%= i.id %>">
+    <input type="submit" value="unfollow" class="button">
+    </form>
+  <% else %>
+    <form id="follow" action="/display_all" method="get">
+    <%= "#{i.username}" %>
+    <input type="hidden" name="user_id" value="<%= i.id %>">
+    <input type="submit" value="follow" class="button">
+    </form>
+  <% end %>
+  <br><br>
 <% end %>
 </div>
